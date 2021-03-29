@@ -42,7 +42,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "      {\r\n        \"name\": \"New Test\",\r\n        \"username\":\"thomas3\"\r\n \r\n    }\r\n    ",
+					"raw": "      {\r\n        \"name\": \"New Test\",\r\n        \"username\":\"thomas3\",\r\n        \"email\":\"r@gmail.com\",\r\n       \"password\":\"123456as\"\r\n \r\n    }\r\n    ",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -127,6 +127,35 @@
 					"path": [
 						"user",
 						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n      \"email\":\"sony@gmail.com\",\r\n       \"password\":\"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/user/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"user",
+						"login"
 					]
 				}
 			},
