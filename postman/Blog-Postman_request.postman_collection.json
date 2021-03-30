@@ -160,6 +160,46 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Role UpdatAS Admin",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo4LCJuYW1lIjoiVG9ueSIsInVzZXJuYW1lIjoiVG9ueSIsImVtYWlsIjoidG9ueUBnbWFpbC5jb20iLCJyb2xlIjoiYWRtaW4ifSwiaWF0IjoxNjE3MDc4MTQwLCJleHAiOjE2MTcwODgxNDB9.PIVdqcCnEwG3rg4j21bjGgCf_mKaJ6ztu2vDqMDRD60",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"role\":\"editor\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/user/6/role",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"user",
+						"6",
+						"role"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
