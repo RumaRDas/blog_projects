@@ -53,9 +53,10 @@ export class UserController {
     return this.userService.paginate({
       page: Number(page),
       limit: Number(limit),
-      route: 'http://localhost:3000/user',
+      route: 'http://localhost:3000/api/user',
     });
   }
+
   @Delete(':id')
   deleteOne(@Param('id') id: string): Observable<any> {
     return this.userService.deleteOne(Number(id));
