@@ -18,6 +18,9 @@
       <mat-hint *ngIf="registerForm.get('email').errors"
         >Email is required</mat-hint
       >
+      <span *ngIf="email.invalid && email.touched" class="red-error">
+        Email field is not Valid</span
+      >
     </mat-form-field>
     <mat-form-field>
       <input
@@ -27,7 +30,15 @@
         formControlName="password"
       />
       <mat-hint *ngIf="registerForm.get('password').errors"
-        >Confirm Password is required</mat-hint
+        >Password is required</mat-hint
+      >
+      <span
+        *ngIf="
+          registerForm.get('password').touched &&
+          registerForm.get('password').hasError('passwordInvalid')
+        "
+        class="red-error"
+        >Password is not containing a number</span
       >
     </mat-form-field>
     <mat-form-field>
@@ -37,8 +48,16 @@
         placeholder=" Confirm Password"
         formControlName="passwordConfirm"
       />
-      <mat-hint *ngIf="registerForm.get('passwordConfirm').errors"
-        >Password Confirm is required</mat-hint
+      <mat-hint *ngIf="registerForm.hasError('passwordNotMatcing')">
+        Confirm Password is required</mat-hint
+      >
+      <span
+        *ngIf="
+          registerForm.get('passwordConfirm').touched &&
+          registerForm.hasError('passwordNotMatcing')
+        "
+        class="red-error"
+        >Password is not Matching</span
       >
     </mat-form-field>
     <button
@@ -51,3 +70,16 @@
     </button>
   </div>
 </form>
+
+<!-- <div>
+  <h3 *ngIf="registerForm.invalid && registerForm.touched">
+    Form contains following errors
+  </h3>
+  <small *ngIf="registerForm.get('password').hasError('passwordInvalid')"
+    >Password is not containing a number</small
+  >
+  <br />
+  <small *ngIf="registerForm.hasError('passwordNotMatcing')"
+    >Password is not Matching</small
+  >
+</div> -->
