@@ -1,7 +1,6 @@
-import { hasRoles } from './../../auth/decorator/roles.decorator';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { Observable, from, throwError } from 'rxjs';
 import { switchMap, map, catchError } from 'rxjs/operators';
 import { User, UserRole } from '../models/user.interface';
@@ -12,6 +11,7 @@ import {
   Pagination,
   IPaginationOptions,
 } from 'nestjs-typeorm-paginate';
+import { get } from 'node:http';
 
 @Injectable()
 export class UserService {
@@ -63,16 +63,77 @@ export class UserService {
     );
   }
 
+  //all user by paginate
   paginate(options: IPaginationOptions): Observable<Pagination<User>> {
-    return from(paginate<User>(this.userRepository, options)).pipe(
-      map((usersPageable: Pagination<User>) => {
-        usersPageable.items.forEach(function (v) {
-          delete v.password;
-        });
-        return usersPageable;
+    return from(paginate<User>(this.userRepository, options));
+  }
+
+  // For finding user by username paginate
+  paginateFilterByUsername(
+    options: IPaginationOptions,
+    user: User,
+  ): Observable<Pagination<User>> {
+    return from(
+      paginate(this.userRepository, options, {
+        where: [{ username: Like(`%${user.username}%`) }],
       }),
     );
   }
+
+  //all user by paginate
+  // paginate(options: IPaginationOptions): Observable<Pagination<User>> {
+  //   return from(paginate<User>(this.userRepository, options)).pipe(
+  //     map((usersPageable: Pagination<User>) => {
+  //       usersPageable.items.forEach(function (v) {
+  //         delete v.password;
+  //       });
+  //       return usersPageable;
+  //     }),
+  //   );
+  // }
+
+  //For finding user by username paginate
+  // paginateFilterByUsername(
+  //   options: IPaginationOptions,
+  //   user: User,
+
+  // ): Observable<Pagination<User>> {
+  //   return from(
+  //     this.userRepository.findAndCount({
+  //    skip: options.page * options.limit || 0,
+  //       take: options.limit || 10,
+  //       order: { id: 'ASC' },
+  //       select: ['id', 'name', 'username', 'email', 'role'],
+  //       where: [{ username: Like(`%${user.username}%`) }],
+  //     }),
+  //   ).pipe(
+  //     map(([users, totalUsers]) => {
+  //       const usersPageable: Pagination<User> = {
+  //         items: users,
+  //         links: {
+  //           first: options.route + `?limit=${options.limit}`,
+  //           previous: options.route + ``,
+  //           next:
+  //             options.route +
+  //             `?limit=${options.limit}&page=${options.page + 1}`,
+  //           last:
+  //             options.route +
+  //             `?limit=${options.limit}&page=${Math.ceil(
+  //               totalUsers / options.(limit),
+  //             )}`,
+  //         },
+  //         meta: {
+  //           currentPage: options.page,
+  //           itemCount: users.length,
+  //           itemsPerPage: options.limit,
+  //           totalItems: totalUsers,
+  //           totalPages: Math.ceil(totalUsers / options.limit),
+  //         },
+  //       };
+  //       return usersPageable;
+  //     }),
+  //   );
+  // }
 
   deleteOne(id: number): Observable<any> {
     return from(this.userRepository.delete(id));
