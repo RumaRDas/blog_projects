@@ -42,7 +42,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "      {\r\n        \"name\": \"New Test\",\r\n        \"username\":\"thomas3\",\r\n        \"email\":\"r@gmail.com\",\r\n       \"password\":\"123456as\"\r\n \r\n    }\r\n    ",
+					"raw": "      {\r\n       \"email\":\"tony@gmail.com\",\r\n       \"password\":\"123456\"\r\n \r\n    }\r\n    ",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -50,14 +50,16 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3000/user",
+					"raw": "http://localhost:3000/api/user/login",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
-						"user"
+						"api",
+						"user",
+						"login"
 					]
 				}
 			},
@@ -162,7 +164,7 @@
 			"response": []
 		},
 		{
-			"name": "Role UpdatAS Admin",
+			"name": "UPdate Role of User(Protected with JWT and Role)",
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -196,6 +198,60 @@
 						"user",
 						"6",
 						"role"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Pagination GET User",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/user?page=2&limit=2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"user"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "2"
+						},
+						{
+							"key": "limit",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SEARCH ALL BY USERNAME",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/user/search/by/username/ew",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"user",
+						"search",
+						"by",
+						"username",
+						"ew"
 					]
 				}
 			},

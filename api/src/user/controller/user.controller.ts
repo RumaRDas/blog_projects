@@ -17,7 +17,6 @@ import { catchError, map } from 'rxjs/operators';
 import { hasRoles } from 'src/auth/decorator/roles.decorator';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-guard';
 import { Pagination } from 'nestjs-typeorm-paginate';
-import { resourceLimits } from 'node:worker_threads';
 
 @Controller('user')
 export class UserController {
@@ -45,17 +44,59 @@ export class UserController {
   }
 
   @Get()
-  index(
+  findAll(
     @Query('page') page: number = 1,
     @Query('limit') limit: number = 10,
   ): Observable<Pagination<User>> {
     limit = limit > 100 ? 100 : limit;
+
     return this.userService.paginate({
       page: Number(page),
       limit: Number(limit),
       route: 'http://localhost:3000/api/user',
     });
   }
+
+  @Get('search/by/username/:username')
+  findAllByUsername(
+    @Param('username') username: string,
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 5,
+  ): Observable<Pagination<User>> {
+    return this.userService.paginateFilterByUsername(
+      {
+        page: Number(page),
+        limit: Number(limit),
+        route: `http://localhost:3000/api/user/search/by/username/${username}`,
+      },
+      { username },
+    );
+  }
+  // @Get()
+  // index(
+  //   @Query('page') page: number = 1,
+  //   @Query('limit') limit: number = 10,
+  //   @Query('username') username: string,
+  // ): Observable<Pagination<User>> {
+  //   limit = limit > 100 ? 100 : limit;
+  //   console.log(username);
+  //   if (username === null || username === undefined) {
+  //     return this.userService.paginate({
+  //       page: Number(page),
+  //       limit: Number(limit),
+  //       route: 'http://localhost:3000/api/user',
+  //     });
+  //   } else {
+  //     return this.userService.paginateFilterByUsername(
+  //       {
+  //         page: Number(page),
+  //         limit: Number(limit),
+  //         route: 'http://localhost:3000/api/user',
+  //       },
+  //       { username },
+  //     );
+  //   }
+  // }
 
   @Delete(':id')
   deleteOne(@Param('id') id: string): Observable<any> {
